@@ -1,0 +1,24 @@
+{
+  "name": "task1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "@types/node": "^14.14.7",
+    "express": "^4.17.1",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-run": "^1.7.1",
+    "rimraf": "^3.0.2",
+    "ts-loader": "^8.0.11",
+    "typescript": "^4.0.5",
+    "webpack": "^5.4.0",
+    "webpack-cli": "^4.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "rimraf ./output && rimraf ./dist && tsc && node dist/app.js && npx webpack --config output/webpack.config.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
