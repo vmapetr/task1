@@ -17,8 +17,9 @@
   },
   "devDependencies": {},
   "scripts": {
-    "build": "rimraf ./output && rimraf ./dist && tsc && node dist/app.js && npx webpack --config output/webpack.config.js"
+    "clean": "rimraf ./output && rimraf ./dist",
+    "build": "npm run clean ./dist && tsc && node dist/app.js && webpack --config output/webpack.config.js"
   },
-  "author": "",
+  "author": "vmapetr",
   "license": "ISC"
 }
