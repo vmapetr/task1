@@ -1,5 +1,5 @@
 ################################################################################
-##  File:  prepareEnv.ps1
+##  File:  prepareEnvironment.ps1
 ##  Desc:  Prepares environment by purging node_modules folder 
 ##         and installing required npm dependencies
 ################################################################################
