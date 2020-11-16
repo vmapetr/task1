@@ -12,7 +12,7 @@ To prepare environment use following script to install required dependencies and
 ```
 ps> .\prepareEnvironment.ps1
 ```
-To generate JS Bundle from `./src/files.json` config use following command
+To generate JS Bundle from `./files.json` config use following command
 ```
 ps> gulp run
 ```
