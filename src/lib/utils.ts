@@ -4,11 +4,15 @@ const fs = require('fs');
 const path = require('path');
 
 export class filesConfig {
-    data: IFiles;
+    data:                   IFiles;
+    entryFile:              string;
+    webpackTemplatePath:    string;
 
     constructor(configPath: string) {
         let rawdata = fs.readFileSync(configPath);
+
         this.data = JSON.parse(rawdata);
+        this.webpackTemplatePath = "./src/lib/webpack-template.json";
 
         this.validateConfig();
     }
@@ -35,45 +39,28 @@ export class filesConfig {
 
     public createWebpackConfig() {
         console.info(`Creating webpack config...`);
-
         let filePath = path.resolve(this.data.destination, 'webpack.config.js');
-        let value = "module.exports = " + JSON.stringify(this.getWebpackContent());
+
+        let value = "module.exports = " + this.getModuleExportsConfig();
 
         fs.writeFileSync(filePath, value);
         
         console.info(`Done`)
     }
 
-    private getWebpackContent() {
-        let webpackContent = module.exports = {
-            entry: path.resolve(this.data.destination, this.getWebpackEntry()),
-            module: {
-              rules: [
-                {
-                  use: 'ts-loader'
-                },
-              ],
-            },
-            resolve: {
-              extensions: ['.ts'],
-            },
-            output: {
-              path: path.resolve(this.data.destination, 'dist'),
-              filename: this.data.bundleName
-            }
-          }
-        
-        return webpackContent
-    }
+    private getModuleExportsConfig() {
+        let rawdata = fs.readFileSync(this.webpackTemplatePath);
+        let data = JSON.parse(rawdata);
 
-    private getWebpackEntry() {
-        let entry : string
-        this.data.files.some(element => { if (element.entry) { entry = element.file; } });
-        return entry
+        data.entry = path.resolve(this.data.destination, this.entryFile)
+        data.output.path = path.resolve(this.data.destination, 'dist')
+        data.output.filename = this.data.bundleName
+        
+        return JSON.stringify(data)
     }
 
     private validateConfig() { 
-        console.info(`Validating files structure...`);
+        console.debug(`Validating files structure...`);
 
         if (!this.data.hasOwnProperty('destination')) {
             throw new Error(`Config file missing 'destination' field`)
@@ -83,8 +70,12 @@ export class filesConfig {
             if (!element.hasOwnProperty('file')) {
                 throw new Error(`File element ${element} missing 'file' field`)
             }
+
+            if (element.hasOwnProperty('entry')) {
+                this.entryFile = element.file;
+            }
         });
 
-        console.info(`Done`);
+        console.debug(`Done`);
     }
 }

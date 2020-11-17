@@ -1,0 +1,17 @@
+{
+    "entry": "",
+    "module": {
+        "rules": [
+            {
+              "use": "ts-loader"
+            }
+          ]
+        },
+    "resolve": {
+      "extensions": [".ts"]
+    },
+    "output": {
+      "path": "",
+      "filename": ""
+    }
+  }
